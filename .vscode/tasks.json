@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build using CMake Tools Preset",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${command:cmake.buildDirectory}"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

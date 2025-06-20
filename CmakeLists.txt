@@ -1,0 +1,48 @@
+cmake_minimum_required(VERSION 3.15)
+project(VoxelGame)
+
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Adiciona subprojetos de bibliotecas
+add_subdirectory(thirdparty/glad)
+add_subdirectory(thirdparty/glm)
+add_subdirectory(thirdparty/glfw-3.4)
+add_subdirectory(thirdparty/imgui)
+
+include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/include/utils)
+include_directories(${PROJECT_SOURCE_DIR}/include/core)
+
+
+# Coleta todos os .cpp da pasta src/
+file(GLOB_RECURSE TBD_SRC CONFIGURE_DEPENDS
+    ${PROJECT_SOURCE_DIR}/src/*.cpp
+    ${PROJECT_SOURCE_DIR}/src/*.c
+)
+
+# Cria o executável diretamente
+add_executable(${PROJECT_NAME} ${TBD_SRC})
+
+
+
+# Flags por configuração (Debug ou Release)
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:DEBUG>
+    $<$<CONFIG:Release>:RELEASE>
+)
+
+# Link com bibliotecas externas
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw  imgui glad glm)
+
+set(LATEST_DIR ${CMAKE_SOURCE_DIR}/latest)
+set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/resources)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E rm -rf ${LATEST_DIR}
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${LATEST_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${LATEST_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${RESOURCES_DIR} ${LATEST_DIR}/resources
+    COMMENT "Copiando binário e resources/ para a pasta 'latest/'..."
+)
