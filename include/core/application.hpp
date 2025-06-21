@@ -1,4 +1,5 @@
 #pragma once
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 class Application
@@ -9,12 +10,12 @@ private:
     uint32_t HEIGHT = 720;
 
 
-    void initWindow();
+    void init();
     void mainLoop();
     void cleanup();
 public:
     void run() {
-        initWindow();
+        init();
         mainLoop();
         cleanup();
     }

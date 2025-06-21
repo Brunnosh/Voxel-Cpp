@@ -1,5 +1,5 @@
 # TBD
-C++ game from scratch with vulkan
+C++ and OpenGL (4.3) experiment
 
 
 ## Build (WINDOWS)
