@@ -25,10 +25,11 @@ CTRL+SHIFT+B builds project, latest executable (Debug or Release) will be found 
 if having some issues, maybe change C compiler from MSVC to GCC, but should  just be open & build.
 
 ## Build (LINUX)
-💀
+Not working directly thinking of Linux, but shouldn't be too hard.
 
 ## Build (MACOS)
-💀
+💀 (Since using OpenGL 4.3, not natively supported on MAC, so there would need to be some kind of Metal port)
+
 ## Inspirações / Materiais
 
  - [ScuffedMinecraft (WSAL Evan)](https://github.com/EvanatorM/ScuffedMinecraft)
