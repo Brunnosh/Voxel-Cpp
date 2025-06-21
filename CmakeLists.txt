@@ -34,7 +34,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 )
 
 # Link com bibliotecas externas
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw  imgui glad glm)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw imgui glad glm)
 
 set(LATEST_DIR ${CMAKE_SOURCE_DIR}/latest)
 set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/resources)
