@@ -3,8 +3,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${VULKAN_SDK}/include"
+                "${workspaceFolder}/**"
             ],
             "defines": [
                 "_DEBUG",
@@ -20,7 +19,6 @@
         {
             "name": "Win32",
             "includePath": [
-                "${VULKAN_SDK}/include",
                 "${workspaceFolder}/**"
             ],
             "defines": [

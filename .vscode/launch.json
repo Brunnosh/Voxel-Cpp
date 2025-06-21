@@ -8,7 +8,7 @@
             "name": "(Windows) Launch",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/latest/TBD.exe",
+            "program": "${workspaceFolder}/latest/VoxelGame.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/latest/",
