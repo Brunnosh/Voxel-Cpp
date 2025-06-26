@@ -15,6 +15,11 @@ void Application::menuLoop() {
         // Inicialize mundo local aqui
     }
 
+    if (ImGui::Button("Join Server")) {
+        m_AppState = ApplicationState::MultiPlayer;
+        // Inicialize servidor local aqui
+    }
+
     if (ImGui::Button("Host Server")) {
         m_AppState = ApplicationState::Server;
         // Inicialize servidor local aqui

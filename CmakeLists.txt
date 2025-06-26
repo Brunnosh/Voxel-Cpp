@@ -36,7 +36,15 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 # Link com bibliotecas externas
 target_link_libraries(${PROJECT_NAME} PRIVATE glfw imgui glad glm)
 
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE opengl32)
+elseif(UNIX)
+    target_link_libraries(${PROJECT_NAME} PRIVATE GL pthread dl)
+endif()
+
 set(LATEST_DIR ${CMAKE_SOURCE_DIR}/latest)
+set(DEBUG_COMPILE_DIR ${CMAKE_SOURCE_DIR}/build/debug/resources)
+set(RELEASE_COMPILE_DIR ${CMAKE_SOURCE_DIR}/build/release/resources)
 set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/resources)
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -46,3 +54,19 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${RESOURCES_DIR} ${LATEST_DIR}/resources
     COMMENT "Copiando binário e resources/ para a pasta 'latest/'..."
 )
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rm -rf ${DEBUG_COMPILE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${DEBUG_COMPILE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${RESOURCES_DIR} ${DEBUG_COMPILE_DIR}
+        COMMENT "Copiando resources para build/debug/resources"
+    )
+endif()
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rm -rf ${RELEASE_COMPILE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${RELEASE_COMPILE_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${RESOURCES_DIR} ${RELEASE_COMPILE_DIR}
+        COMMENT "Copiando resources para build/release/resources"
+    )
+endif()

@@ -45,24 +45,30 @@ void Application::init(){
     ImGui_ImplGlfw_InitForOpenGL(m_Window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
     ImGui_ImplOpenGL3_Init();
 
+    m_ShaderMap[shaderType::MAIN] = Shader("resources/shaders/mainShaderVertex.glsl", "resources/shaders/mainShaderFragment.glsl");
+    m_ModelLoc = glGetUniformLocation(m_ShaderMap[shaderType::MAIN].ID, "model");
+
+    
 }
 
 void Application::mainLoop(){
 
     while (!glfwWindowShouldClose(m_Window)&& m_AppState != ApplicationState::Exiting) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClearColor(0.5, 0.55, 0.70, 0);
         
         switch (m_AppState) {
         case ApplicationState::Menu:
             menuLoop();
-            tbd::print("ginga");
             break;
         case ApplicationState::SinglePlayer:
-            //singlePlayerLoop();
-            tbd::print("gunga");
+            singlePlayerLoop();
+            break;
+        case ApplicationState::MultiPlayer:
+            multiPlayerLoop();
             break;
         case ApplicationState::Server:
-            //serverLoop();
+            serverHostLoop();
             break;
         }
 
