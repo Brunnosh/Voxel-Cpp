@@ -1,8 +1,13 @@
 #include <application.hpp>
+#include <appContext.hpp>
+
+
 #include <iostream>
 #include <imgui.h>
 #include <backends/imgui_impl_opengl3.h>
 #include <backends/imgui_impl_glfw.h>
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 
 void Application::init(){
@@ -22,6 +27,11 @@ void Application::init(){
     }
 
     glfwMakeContextCurrent(m_Window);
+    glfwSetWindowUserPointer(m_Window, this);
+    glfwSetFramebufferSizeCallback(m_Window, framebuffer_size_callback);
+
+
+    //glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cerr << "Failed to initialize GLAD" << std::endl;
@@ -45,19 +55,46 @@ void Application::init(){
     ImGui_ImplGlfw_InitForOpenGL(m_Window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
     ImGui_ImplOpenGL3_Init();
 
-    m_ShaderMap[shaderType::MAIN] = Shader("resources/shaders/mainShaderVertex.glsl", "resources/shaders/mainShaderFragment.glsl");
-    m_ModelLoc = glGetUniformLocation(m_ShaderMap[shaderType::MAIN].ID, "model");
-
+    e_Shaders[shaderType::MAIN] = Shader("resources/shaders/mainShaderVertex.glsl", "resources/shaders/mainShaderFragment.glsl");
     
 }
 
 void Application::mainLoop(){
+    ApplicationState m_LastAppState = G.appState;
 
-    while (!glfwWindowShouldClose(m_Window)&& m_AppState != ApplicationState::Exiting) {
+    while (!glfwWindowShouldClose(m_Window)&& G.appState != ApplicationState::Exiting) {
+        float currentFrame = static_cast<float>(glfwGetTime());
+        G.deltaTime = currentFrame - G.lastFrame;
+        G.lastFrame = currentFrame;
+
+
+        
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(0.5, 0.55, 0.70, 0);
         
-        switch (m_AppState) {
+        // Detecta mudança de estado
+        if (G.appState != m_LastAppState) {
+            switch (G.appState) {
+            case ApplicationState::Menu:
+                //onEnterMenu();
+                break;
+            case ApplicationState::SinglePlayer:
+                singlePlayerInit();
+                break;
+            case ApplicationState::MultiPlayer:
+                //onEnterMultiPlayer();
+                break;
+            case ApplicationState::Server:
+                //onEnterServer();
+                break;
+            default:
+                break;
+            }
+            m_LastAppState = G.appState;
+        }
+
+        // Loop principal por estado
+        switch (G.appState) {
         case ApplicationState::Menu:
             menuLoop();
             break;
@@ -70,8 +107,10 @@ void Application::mainLoop(){
         case ApplicationState::Server:
             serverHostLoop();
             break;
+        default:
+            break;
         }
-
+        
         glfwSwapBuffers(m_Window);
         glfwPollEvents();
     }
@@ -85,4 +124,9 @@ void Application::cleanup(){
     ImGui::DestroyContext();
     glfwDestroyWindow(m_Window);
     glfwTerminate();
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
 }

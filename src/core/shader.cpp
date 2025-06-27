@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 
-std::unordered_map<shaderType, Shader> Shaders;
+std::unordered_map<shaderType, Shader> e_Shaders;
 
 
 

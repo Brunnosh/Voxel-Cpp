@@ -49,5 +49,5 @@ private:
 };
 
 
-
+extern std::unordered_map<shaderType, Shader> e_Shaders;
 #endif
