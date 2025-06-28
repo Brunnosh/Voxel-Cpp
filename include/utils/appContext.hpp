@@ -11,10 +11,11 @@ enum class ApplicationState {
     Exiting
 };
 
-class AppContext {
-private:
+struct AppContext {
 
 public:
+    uint32_t* windowWidthRef;
+    uint32_t* windowHeightRef;
     ApplicationState appState = ApplicationState::Menu;
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;

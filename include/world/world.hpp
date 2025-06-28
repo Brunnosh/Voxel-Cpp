@@ -16,11 +16,11 @@ struct worldSettings
 class World {
 private:
 	std::unordered_map<glm::ivec3, Chunk, Vec3Hash> worldChunkData;
-	worldSettings settings;
+	
 	
 
 public:
-
+	worldSettings settings;
 	World() {
 
 	}
@@ -28,6 +28,7 @@ public:
 		settings.worldHeight = p_WorldHeight;
 	}
 
+	
 
 	void queueChunkGen(Camera & camera);
 

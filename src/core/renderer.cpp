@@ -1,6 +1,7 @@
 #include <renderer.hpp>
 #include <configs.hpp>
 #include <shader.hpp>
+#include <appContext.hpp>
 
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -164,6 +165,13 @@ void Renderer::uploadMesh(Mesh& mesh) {
 }
 
 void Renderer::renderAll() {
+
+    glm::mat4 projection = glm::perspective(glm::radians(G.camera->fov), (float)*G.windowWidthRef / (float)*G.windowHeightRef, 0.01f, 5000.0f);
+    e_Shaders[shaderType::MAIN].setMat4("projection", projection);
+    glm::mat4 view = G.camera->GetViewMatrix();
+    e_Shaders[shaderType::MAIN].setMat4("view", view);
+
+    e_Shaders[shaderType::MAIN].use();
     for (const auto& [pos, mesh] : chunkMeshes) {
         if (!mesh.uploaded) continue;
 

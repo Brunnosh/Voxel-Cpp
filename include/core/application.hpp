@@ -14,8 +14,8 @@ class Application
 private:
     GLFWwindow* m_Window = NULL;
     Renderer m_Renderer;
-    uint32_t WIDTH = 1280;
-    uint32_t HEIGHT = 720;
+    uint32_t m_WindowWidth = 1280;
+    uint32_t m_WindowHeight = 720;
 
 
 

@@ -12,6 +12,9 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 
 void Application::init(){
+    G.windowHeightRef = &m_WindowHeight;
+    G.windowWidthRef = &m_WindowWidth;
+
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
         
@@ -21,7 +24,7 @@ void Application::init(){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-    m_Window = glfwCreateWindow(WIDTH, HEIGHT, "VoxelGame", nullptr, nullptr);
+    m_Window = glfwCreateWindow(m_WindowWidth, m_WindowHeight, "VoxelGame", nullptr, nullptr);
     if (!m_Window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
