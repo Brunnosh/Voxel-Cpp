@@ -1,8 +1,7 @@
 #pragma once
 
 #include <cstdint>
-
-
+#include <camera.hpp>
 
 enum class ApplicationState {
     Menu,
@@ -19,12 +18,15 @@ public:
     ApplicationState appState = ApplicationState::Menu;
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
+    Camera* camera = NULL;
 
 
-
-    // outros ponteiros globais possíveis
-    // Camera* camera = nullptr;
-    // World* world = nullptr;
 };
 
+struct Configs
+{
+    bool VSYNC = false;
+};
+
+extern Configs cfg;
 extern AppContext G;

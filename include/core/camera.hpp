@@ -25,7 +25,10 @@ public:
     short renderDist = 8;
     float moveSpeed = 10.0f;
     float mouseSensitivity = 0.1f;
+
     bool menu = false;
+    bool wireframe = false;
+
     bool firstMouse = true;
     float camLastX = 0.0f;
     float camLastY = 0.0f;

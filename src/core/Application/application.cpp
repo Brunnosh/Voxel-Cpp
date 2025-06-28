@@ -1,11 +1,12 @@
 #include <application.hpp>
 #include <appContext.hpp>
-
+#include <glfwInput.hpp>
 
 #include <iostream>
 #include <imgui.h>
 #include <backends/imgui_impl_opengl3.h>
 #include <backends/imgui_impl_glfw.h>
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -29,6 +30,9 @@ void Application::init(){
     glfwMakeContextCurrent(m_Window);
     glfwSetWindowUserPointer(m_Window, this);
     glfwSetFramebufferSizeCallback(m_Window, framebuffer_size_callback);
+    glfwSetKeyCallback(m_Window, key_callback);
+    glfwSetCursorPosCallback(m_Window, mouse_callback);
+    glfwSwapInterval(cfg.VSYNC);
 
 
     //glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -42,7 +46,7 @@ void Application::init(){
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
-
+    
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -56,17 +60,22 @@ void Application::init(){
     ImGui_ImplOpenGL3_Init();
 
     e_Shaders[shaderType::MAIN] = Shader("resources/shaders/mainShaderVertex.glsl", "resources/shaders/mainShaderFragment.glsl");
-    
+
 }
 
 void Application::mainLoop(){
     ApplicationState m_LastAppState = G.appState;
 
     while (!glfwWindowShouldClose(m_Window)&& G.appState != ApplicationState::Exiting) {
+
+
         float currentFrame = static_cast<float>(glfwGetTime());
         G.deltaTime = currentFrame - G.lastFrame;
         G.lastFrame = currentFrame;
 
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
 
         
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -110,9 +119,19 @@ void Application::mainLoop(){
         default:
             break;
         }
-        
+
+
+        ImGui::Begin("App Metrics");
+        ImGui::Text("Frame Time: %.2f ms", G.deltaTime * 1000.0f);
+        ImGui::Text("FPS: %.1f", 1.0f / G.deltaTime);
+        ImGui::End();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         glfwSwapBuffers(m_Window);
         glfwPollEvents();
+        
     }
     
 }

@@ -6,9 +6,7 @@
 #include <backends/imgui_impl_glfw.h>
 
 void Application::menuLoop() {
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
+
 
     ImGui::Begin("Main Menu");
 
@@ -31,8 +29,6 @@ void Application::menuLoop() {
         G.appState = ApplicationState::Exiting;
     }
 
-    ImGui::End();
 
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    ImGui::End();
 }

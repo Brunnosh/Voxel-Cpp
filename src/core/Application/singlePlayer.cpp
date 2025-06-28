@@ -1,6 +1,11 @@
 #include <application.hpp>
 #include <appContext.hpp>
 #include <camera.hpp>
+#include <glfwInput.hpp>
+
+#include <imgui.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <backends/imgui_impl_glfw.h>
 
 float vertices[] = {
 	// posX, posY, posZ,    u, v
@@ -48,8 +53,16 @@ glm::vec3 cubePositions[] = {
 	glm::vec3(-1.3f,  1.0f, -1.5f)
 };
 unsigned int VAO;
-Camera camera(glm::vec3(0, 0, 0));
+
+
 void Application::singlePlayerInit() {
+	G.camera = new Camera(glm::vec3(0, 0, 3));
+
+
+	
+
+
+	glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	 // Later, Initialize camera position based on (EITHER, surface level on 0,0 OR latest player postion saved on world)
 
 	unsigned int  VBO, EBO;
@@ -75,37 +88,26 @@ void Application::singlePlayerInit() {
 
 	glBindVertexArray(0);
 
-	tbd::print("preto");
 }
 
 
 void Application::singlePlayerLoop() {
-	//process input
-
-	//world gen
-
-	//world update
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-	//renderer create mesh
-
-			// activate shader
-	e_Shaders[shaderType::MAIN].use();
-
-	// pass projection matrix to shader (note that in this case it could change every frame)
-	glm::mat4 projection = glm::perspective(glm::radians(camera.fov), (float)WIDTH / (float)HEIGHT, 0.01f, 5000.0f);
+	processInput(m_Window);
+	
+	glm::mat4 projection = glm::perspective(glm::radians(G.camera->fov), (float)WIDTH / (float)HEIGHT, 0.01f, 5000.0f);
 	e_Shaders[shaderType::MAIN].setMat4("projection", projection);
-
-	// camera/view transformation
-	glm::mat4 view = camera.GetViewMatrix();
+	glm::mat4 view = G.camera->GetViewMatrix();
 	e_Shaders[shaderType::MAIN].setMat4("view", view);
+
 	glBindVertexArray(VAO);
+	e_Shaders[shaderType::MAIN].use();
 	for (unsigned int i = 0; i < 10; i++) {
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, cubePositions[i]);
 		float angle = 20.0f * i;
 		model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 		e_Shaders[shaderType::MAIN].setMat4("model", model);
-
+		
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}
 
@@ -113,7 +115,6 @@ void Application::singlePlayerLoop() {
 
 
 	//---------
-
 
 
 

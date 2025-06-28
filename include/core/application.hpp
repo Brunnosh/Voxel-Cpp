@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
+#include <appContext.hpp>
 #include <log.hpp>
 #include <shader.hpp>
 #include <renderer.hpp>
@@ -16,7 +16,6 @@ private:
     Renderer m_Renderer;
     uint32_t WIDTH = 1280;
     uint32_t HEIGHT = 720;
-
 
 
 
@@ -35,6 +34,10 @@ private:
 
 
 public:
+    static void toggleVSYNC() {
+        cfg.VSYNC = !cfg.VSYNC;
+        glfwSwapInterval(cfg.VSYNC);
+    }
     void run() {
         init();
         mainLoop();
