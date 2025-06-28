@@ -137,7 +137,7 @@ void Application::mainLoop(){
 }
 void Application::cleanup(){
 
-
+    m_Renderer.cleanup();
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();

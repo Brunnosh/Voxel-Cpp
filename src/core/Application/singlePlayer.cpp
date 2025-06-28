@@ -88,6 +88,8 @@ void Application::singlePlayerInit() {
 
 	glBindVertexArray(0);
 
+	
+
 }
 
 
@@ -111,14 +113,7 @@ void Application::singlePlayerLoop() {
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}
 
-	//renderer render mesh---
+	//m_Renderer.createWorldMesh(world, G.camera);
 
-
-	//---------
-
-
-
-
-
-
+	m_Renderer.renderAll();
 }
