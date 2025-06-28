@@ -12,9 +12,7 @@ void Renderer::createWorldMesh() {
     //call drawMesh for each chunk coordinate, passing chunk blockData.
 }
 
-void Renderer::drawMesh(glm::ivec3 pos ) {
-    auto it = chunkMeshes.find(pos);
-    if (it == chunkMeshes.end()) return;
+void Renderer::drawMesh(glm::ivec3 & pos ) {
 
     Mesh mesh;
 

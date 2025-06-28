@@ -26,6 +26,7 @@ public:
 struct Configs
 {
     bool VSYNC = false;
+    int renderDistance = 8; //Chunks
 };
 
 extern Configs cfg;

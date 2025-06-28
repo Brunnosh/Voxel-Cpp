@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -22,7 +21,6 @@ public:
     float yaw;
     float pitch;
     float fov;
-    short renderDist = 8;
     float moveSpeed = 10.0f;
     float mouseSensitivity = 0.1f;
 
@@ -124,4 +122,3 @@ private:
 
 
 
-#endif

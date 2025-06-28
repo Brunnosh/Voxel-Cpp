@@ -14,6 +14,7 @@ add_subdirectory(thirdparty/imgui)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/include/utils)
 include_directories(${PROJECT_SOURCE_DIR}/include/core)
+include_directories(${PROJECT_SOURCE_DIR}/include/world)
 
 
 # Coleta todos os .cpp da pasta src/

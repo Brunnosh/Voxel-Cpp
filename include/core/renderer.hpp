@@ -5,15 +5,8 @@
 #include <vector>
 #include <glad/glad.h>
 #include <string>
+#include <hash.hpp>
 
-struct Vec3Hash {
-    std::size_t operator()(const glm::ivec3& v) const {
-        std::size_t h1 = std::hash<int>()(v.x);
-        std::size_t h2 = std::hash<int>()(v.y);
-        std::size_t h3 = std::hash<int>()(v.z);
-        return h1 ^ (h2 << 1) ^ (h3 << 2); 
-    }
-};
 
 enum FACE { //order used for texture index in chunk.cpp/block.cpp
     NORTH,
@@ -48,7 +41,7 @@ struct Mesh {
 class Renderer {
 public:
     void createWorldMesh();
-    void drawMesh(glm::ivec3 pos);
+    void drawMesh(glm::ivec3& pos);
     void uploadMesh(const glm::ivec3& pos);
     void renderAll();
     void cleanup();

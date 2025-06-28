@@ -2,6 +2,7 @@
 #include <appContext.hpp>
 #include <camera.hpp>
 #include <glfwInput.hpp>
+#include <world.hpp>
 
 #include <imgui.h>
 #include <backends/imgui_impl_opengl3.h>
@@ -56,7 +57,9 @@ unsigned int VAO;
 
 
 void Application::singlePlayerInit() {
-	G.camera = new Camera(glm::vec3(0, 0, 3));
+	World world();
+
+	G.camera = new Camera(glm::vec3(0, 32, 3));
 
 
 	
@@ -65,6 +68,7 @@ void Application::singlePlayerInit() {
 	glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	 // Later, Initialize camera position based on (EITHER, surface level on 0,0 OR latest player postion saved on world)
 
+	
 	unsigned int  VBO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -87,20 +91,23 @@ void Application::singlePlayerInit() {
 	glEnableVertexAttribArray(1);
 
 	glBindVertexArray(0);
-
 	
 
+	m_Renderer.drawMesh(glm::ivec3(0, 0, 0));
+	m_Renderer.uploadMesh(glm::ivec3(0, 0, 0));
 }
 
 
 void Application::singlePlayerLoop() {
 	processInput(m_Window);
 	
+	
 	glm::mat4 projection = glm::perspective(glm::radians(G.camera->fov), (float)WIDTH / (float)HEIGHT, 0.01f, 5000.0f);
 	e_Shaders[shaderType::MAIN].setMat4("projection", projection);
 	glm::mat4 view = G.camera->GetViewMatrix();
 	e_Shaders[shaderType::MAIN].setMat4("view", view);
 
+	
 	glBindVertexArray(VAO);
 	e_Shaders[shaderType::MAIN].use();
 	for (unsigned int i = 0; i < 10; i++) {
@@ -112,8 +119,9 @@ void Application::singlePlayerLoop() {
 		
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}
+	
 
 	//m_Renderer.createWorldMesh(world, G.camera);
-
+	
 	m_Renderer.renderAll();
 }

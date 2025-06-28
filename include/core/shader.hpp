@@ -1,5 +1,4 @@
-#ifndef SHADER_H
-#define SHADER_H
+#pragma once
 
 #include <string>
 #include <glm/glm.hpp>
@@ -50,4 +49,4 @@ private:
 
 
 extern std::unordered_map<shaderType, Shader> e_Shaders;
-#endif
+
